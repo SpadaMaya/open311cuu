@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content%}
+{% load bootstrap4 %}
+{% load widget_tweaks%}
+<!DOCTYPE html>
+  <head>
+    {% bootstrap4_css %}
+    {% bootstrap4_javascript %}
+    <style>
+        .titulo{
+            linear-gradient(180deg, #A9DD14 0%, rgba(63, 75, 61, 0.00) 100%);
+            mix-blend-mode: lighten;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25)
+        padding: 10px;
+        font-family: arial;
+    } 
+    h1{
+        color:white;
+        font-size: xxx-large;
+    }
+    </style>
+</head>
+<body>
+    <!--encabezado-->
+    <div class="titulo" align="center">
+        <h1>Solicitudes</h1>
+    </div>
+    <!--contenido-->
+    {% block content%}
+    <div align="center">
+      <div style="width: 70%;">
+        <table class="table">
+            <thead>
+                <tr> <!--encabezado-->
+                    <th scope="col"><!--columnas por nùmero de registro-->
+                        #
+                    </th>
+                    <th scope="col">
+                        Tìtulo
+                    </th>
+                    <th scope="col">
+                        Categoría
+                    </th>
+                    <th scope="col">
+                        Dirección
+                    </th>
+                    <th scope="col">
+                        Descripción
+                    </th>
+                    <th scope="col">
+                        Adjunto
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                <tr>
+                    <td scope"row"><!--columna nativa x lo que debe destacar -->
+                        {{ solicitud.pk }}
+                    </td>
+                    <td>
+                        {{ solicitud.titulo }}
+                    </td>
+                    <td>
+                        {{ solicitud.categoria }}
+                    </td>
+                    <td>
+                        {{ solicitud.direccion }}
+                    </td>
+                    <td>
+                        {{ solicitud.descripcion }}
+                    </td>
+                    <td>
+                        {{ solicitud.adjunto }}
+                    </td>
+                <td>
+                <form method='post' id='form-eliminar' class='form-eliminar' action='{% url 'eliminar_solicitud' solicitud.pk %}'>
+                {% csrf_token %}
+                <input type='hidden' name='libro_id' value='{{ solicitud.pk }}'>
+                <button type='button' class='btn btn-danger' id='btn-confirmar-eliminar-{{ solicitud.pk }}'> Eliminar</button>
+            <div class='dropdown' id='dropdown-confirmación-{{ solicitud.pk }}' style='display: none;'>
+                <button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                    Confirmar eliminación
+                </button>
+                <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
+                    <button class='dropdown-item' type='submit' >Sì, eliminar</button>
+                    <button class='dropdown-item' type='button' id='btn-cancelar-eliminar'>Cancelar</button>
+                </div>
+            </div>    
+            </form>
+            </tbody>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+ 
+</div>
+  <script>
+    //muestra el menú
+    $(document).ready(function(){
+        $('[id^='btn-confirmar-eliminar']').click(function(){
+            var divId = $(this).attr('id').split('-')[3];
+            $('#dropdown-confirmacion-' + divId).show();
+        });
+        //cancelar eliminación
+        $('#btn-cancelar-eliminar').click(function(){
+            $('#dropdown-confirmacion').hide();
+        });
+    });
+</script>
+    </body>
+  </html>
+{% endblock %}

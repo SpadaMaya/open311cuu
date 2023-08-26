@@ -1,0 +1,47 @@
+{% load bootstrap4 %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+  <head>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envía una solicitud</title>
+</head>
+<body>
+            <!-- Formulario --> 
+            {% block content %}
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ form.titulo.id_for_label }}">Titulo</label>
+                {{ form.titulo|add_class:"form-control" }}
+              </div>
+              <div class="form-group">
+                <label for="{{ form.categoria.id_for_label }}">Edición</label>
+                {{ form.categoria|add_class:"form-control" }}
+              </div>
+              <div class="form-group">
+                <label for="{{ form.direccion.id_for_label }}">Editorial</label>
+                {{ form.direccion|add_class:"form-control" }}
+              </div>
+              <div class="form-group">
+                <label for="{{ form.descripcion.id_for_label }}">Año de publicación</label>
+                {{ form.descripcion|add_class:"form-control" }}
+              </div>
+              <div class="form-group">
+                <label for="{{ form.adjunto.id_for_label }}">Número de páginas</label>
+                {{ form.adjunto|add_class:"form-control" }}
+              </div>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            </form>
+    
+          </div>
+        </div>
+        
+    
+    
+        {% endblock %}
+</body>
+</html> 
